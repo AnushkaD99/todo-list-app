@@ -21,20 +21,18 @@ export default function SignIn() {
 
     const data = { username, email, password, confirmPassword };
 
-    try {
-      const result = await doSignup(data);
-      if (result?.success) {
-        setUsername("");
-        setEmail("");
-        setPassword("");;
-        setConfirmPassword("")
+    const result = await doSignup(data);
+    if (result?.success) {
+      setUsername("");
+      setEmail("");
+      setPassword("");;
+      setConfirmPassword("")
 
-        showToast("success", "Sign up Sucessfull");
+      showToast("success", "Sign up Sucessfull");
 
-        navigate("/");
-      }
-    } catch (err) {
-      setError(err ? err.message : "An error occurred");
+      navigate("/");
+    } else {
+      setError(result?.error?.message);
     }
   };
 
@@ -63,7 +61,7 @@ export default function SignIn() {
               htmlFor="username"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              User Name
+              Username
             </label>
             <input
               type="text"
@@ -121,7 +119,7 @@ export default function SignIn() {
               Password
             </label>
             <input
-              type="confirmPassword"
+              type="password"
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}

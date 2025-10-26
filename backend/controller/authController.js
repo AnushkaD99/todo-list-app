@@ -29,14 +29,15 @@ const signup = catchAsync(async (req, res, next) => {
     delete result.password;
     delete result.deletedAt;
 
-    result.token = generateToken({
+    const token = generateToken({
         id: result.id
     });
 
     return res.status(201).json({
         status: 'success',
         message: 'Successfully user created',
-        data: result,
+        username: newUser.username,
+        token,
     });
 });
 
@@ -66,6 +67,7 @@ const login = (async (req, res, next) => {
     return res.json({
         status: 'Success',
         token,
+        username: result.username
     });
 });
 

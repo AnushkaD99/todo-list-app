@@ -19,19 +19,19 @@ export default function SignIn() {
 
     const data = { email, password };
 
-    try {
-      const result = await doSignin(data);
-      if (result?.success) {
-        setEmail("");
-        setPassword("");
+    const result = await doSignin(data);
+    console.log(result)
+    if (result?.success) {
+      setEmail("");
+      setPassword("");
 
-        showToast("success", "Sign in Sucessfull");
+      showToast("success", "Sign in Sucessfull");
 
-        navigate("/");
-      }
-    } catch (err) {
-      setError(err ? err.message : "An error occurred");
+      navigate("/");
     }
+   else {
+    setError(result?.error?.message);
+   }
   };
 
   return (

@@ -25,39 +25,26 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signin.fulfilled, (state, action) => {
       handleAuthSuccess(state, action.payload);
+    })
+    .addCase(signup.fulfilled, (state, action) => {
+      handleAuthSuccess(state, action.payload);
     });
-  },
-  // extraReducers: (builder) => {
-  //   builder.addCase(signup.fulfilled, (state, action) => {
-  //     handleAuthSuccess(state, action.payload);
-  //   });
-  // }
-});
-
-// Helper function to decode JWT token
-const decodeToken = (token) => {
-  try {
-    return JSON.parse(atob(token.split(".")[1]));
-  } catch (error) {
-    console.error("Error decoding token:", error);
-    return {};
   }
-};
+});
 
 // handle authentication success
 const handleAuthSuccess = (state, data) => {
 
-  const { token } = data;
-  const decodedToken = decodeToken(token);
+  const { token, username } = data;
 
   state.isAuthenticated = true;
-  // state.user = userData;
+  state.user = username;
 
   localStorage.setItem(
     "auth",
     JSON.stringify({
       isAuthenticated: true,
-      // user: userData,
+      user: username,
     })
   );
     if (token) {

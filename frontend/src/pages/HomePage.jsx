@@ -2,11 +2,12 @@ import { ListChecks, LogOut } from 'lucide-react';
 import TaskForm from '../components/TaskForm'
 import TaskList from '../components/TaskList'
 import showToast from '../utils/toastNotifications';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../store";
 
 export default function HomePage() {
     const dispatch = useDispatch();
+    const {user} = useSelector((state) => state.auth);
     const handleLogout = async() => {
         dispatch(logout());
         showToast("success", "Logout Successfully");
@@ -24,8 +25,7 @@ export default function HomePage() {
                             </h1>
                         </div>
                         <div className="flex items-center gap-4">
-                            <span className="text-sm text-gray-600">anushka@gmail.com</span>
-                            {/* <span className="text-sm text-gray-600">{user.email}</span> */}
+                            <span className="text-sm text-gray-600">{user}</span>
                             <button
                                 onClick={() => handleLogout()}
                                 className="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-200 transition-colors"

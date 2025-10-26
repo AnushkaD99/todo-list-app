@@ -45,7 +45,7 @@ export default function TaskList() {
   if (getTasksError) {
     return (
       <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-        <p className="text-red-600 font-medium">Error: {getTasksError}</p>
+        <p className="text-red-600 font-medium">Error: {getTasksError?.message}</p>
       </div>
     );
   }
