@@ -23,8 +23,8 @@ const createTask = catchAsync(async (req, res, next) => {
 const getTaskByUserId = catchAsync(async (req, res, next) => {
     const userId = req.user.id;
     const result = await task.findAll({
-        include: user,
-        where: {createdBy: userId},
+        where: {createdBy: userId, completed: false},
+        linmit: 5
     });
 
     return res.json({
@@ -36,6 +36,7 @@ const getTaskByUserId = catchAsync(async (req, res, next) => {
 const markAsDone = catchAsync(async (req, res, next) => {
     const userId = req.user.id;
     const taskId = req.params.id;
+    console.log("UserId:", userId);
 
     const result = await task.findOne({ where: { id: taskId, createdBy: userId } });
 

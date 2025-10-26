@@ -3,5 +3,16 @@ import { CONFIGURATIONS } from "./envConfig";
 
 export const api = axios.create({
   baseURL: `${CONFIGURATIONS.API_BASE_URL}/`,
-  withCredentials: true, // Ensures cookies are included in all requests
+  withCredentials: true,
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);

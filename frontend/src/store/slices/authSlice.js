@@ -27,11 +27,11 @@ const authSlice = createSlice({
       handleAuthSuccess(state, action.payload);
     });
   },
-  extraReducers: (builder) => {
-    builder.addCase(signup.fulfilled, (state, action) => {
-      handleAuthSuccess(state, action.payload);
-    });
-  }
+  // extraReducers: (builder) => {
+  //   builder.addCase(signup.fulfilled, (state, action) => {
+  //     handleAuthSuccess(state, action.payload);
+  //   });
+  // }
 });
 
 // Helper function to decode JWT token

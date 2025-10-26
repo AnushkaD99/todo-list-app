@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../config/api";
-import axios from "axios";
 
 export const signin = createAsyncThunk(
   "auth/login",

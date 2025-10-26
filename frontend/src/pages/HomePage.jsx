@@ -3,7 +3,7 @@ import TaskForm from '../components/TaskForm'
 import TaskList from '../components/TaskList'
 import showToast from '../utils/toastNotifications';
 import { useDispatch } from 'react-redux';
-import {logout} from "../store";
+import { logout } from "../store";
 
 export default function HomePage() {
     const dispatch = useDispatch();
@@ -11,6 +11,7 @@ export default function HomePage() {
         dispatch(logout());
         showToast("success", "Logout Successfully");
     }
+
     return (
         <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50">
             <div className="max-w-7xl mx-auto px-4 py-8">

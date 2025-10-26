@@ -18,3 +18,4 @@ export default store;
 export { logout } from "./slices/authSlice";
 
 export * from "./thunks/authThunk";
+export * from "./thunks/taskThunk";
