@@ -2,7 +2,7 @@ import axios from "axios";
 import { CONFIGURATIONS } from "./envConfig";
 
 export const api = axios.create({
-  baseURL: `${CONFIGURATIONS.API_BASE_URL}/`,
+  baseURL: `${CONFIGURATIONS.API_BASE_URL}/` || 'http://localhost:3000',
   withCredentials: true,
 });
 
