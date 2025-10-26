@@ -2,27 +2,35 @@ import { CheckCircle2, ListTodo } from "lucide-react";
 import { getTasks, markAsDoneTask } from "../store";
 import { useThunk } from "../hooks/useThunk";
 import { useEffect } from "react";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import showToast from "../utils/toastNotifications";
 
 export default function TaskList() {
-  const error = null;
-
   const [doGetTasks, isGetTasks, getTasksError] = useThunk(getTasks);
-  const [doMarkAsDoneTask, isMarkAsDoneTask, markAsDoneTaskError] = useThunk(markAsDoneTask);
-  const [tasks, setTasks] = useState([]);
+  const [doMarkAsDoneTask, isMarkAsDoneTask, markAsDoneTaskError] =
+    useThunk(markAsDoneTask);
+
+  const storeTasks = useSelector((state) => state.tasks?.tasks);
+  const tasks = storeTasks ?? [];
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      const data = await doGetTasks();
-      setTasks(data.response.data || []);
-      console.log(data.response.data);
-    };
-    fetchTasks();
-  }, []);
+    doGetTasks();
+  }, [doGetTasks]);
+
+  useEffect(() => {
+    if (getTasksError) {
+      showToast("error", "Failed to fetch tasks");
+    }
+  }, [getTasksError]);
 
   const handleMarkDone = async (taskId) => {
-    console.log(taskId);
-    await doMarkAsDoneTask(taskId);
+    const result = await doMarkAsDoneTask(taskId);
+    doGetTasks();
+    if (result.error) {
+      showToast("error", "Failed to mask as done");
+    } else {
+      showToast("success", "Task mark as done succussfully");
+    }
   };
 
   if (isGetTasks && tasks.length === 0) {
@@ -34,10 +42,10 @@ export default function TaskList() {
     );
   }
 
-  if (error) {
+  if (getTasksError) {
     return (
       <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-        <p className="text-red-600 font-medium">Error: {error}</p>
+        <p className="text-red-600 font-medium">Error: {getTasksError}</p>
       </div>
     );
   }

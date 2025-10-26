@@ -4,6 +4,7 @@ import Signup from "./pages/SignUp";
 import HomePage from "./pages/HomePage";
 import { Provider, useSelector } from "react-redux";
 import store from "./store";
+import { ToastContainer } from "react-toastify";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -33,6 +34,7 @@ function App() {
   return (
     <Provider store={store}>
       <RouterProvider router={router} />
+      <ToastContainer autoClose={2000} position="bottom-left" />
     </Provider>
   );
 }

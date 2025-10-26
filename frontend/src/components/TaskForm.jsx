@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
+import { useThunk } from '../hooks/useThunk';
+import { createTask } from '../store';
+import showToast from '../utils/toastNotifications';
 
 export default function TaskForm() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  const [doCreateTask, isCreateTask, createTaskError] = useThunk(createTask);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -11,11 +16,14 @@ export default function TaskForm() {
     if (!title.trim() || !description.trim()) {
       return;
     }
+    const taskData = { title, description }
 
-    console.log("task Created");
+    await doCreateTask(taskData);
 
     setTitle('');
     setDescription('');
+
+    showToast("success", "Task creted successfully");
   };
 
   return (
@@ -51,7 +59,7 @@ export default function TaskForm() {
 
         <button
           type="submit"
-          disabled={!title.trim() || !description.trim()}
+          disabled={!title.trim() || !description.trim() || isCreateTask}
           className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           <Plus size={20} />

@@ -24,7 +24,7 @@ const getTaskByUserId = catchAsync(async (req, res, next) => {
     const userId = req.user.id;
     const result = await task.findAll({
         where: {createdBy: userId, completed: false},
-        linmit: 5
+        limit: 5
     });
 
     return res.json({
@@ -45,11 +45,13 @@ const markAsDone = catchAsync(async (req, res, next) => {
     }
 
     result.completed = true;
+
     await result.save();
 
     return res.json({
         status: 'success',
-        message: 'Task marked as done'
+        message: 'Task marked as done',
+        data: taskId,
     });
 });
 
